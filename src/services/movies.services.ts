@@ -7,7 +7,7 @@ import { returnMovie, returnReadAllMovie } from "../schemas"
 const read = async (page: any, perPage:any, order:any, sort:any): Promise<tMoviesReadAllReturn> => {
     const movieRepository: Repository<tMovieReturn> = AppDataSource.getRepository(Movie)  
     
-    if (Number(page) > 0) {
+    /* if (Number(page) > 0) {
         page = Number(page)
     } else {
         page = 1;
@@ -29,8 +29,13 @@ const read = async (page: any, perPage:any, order:any, sort:any): Promise<tMovie
         sort = 'id'
     } else {
         sort = sort || 'id'
-    }
+    } */
    
+    if(!sort) order = 'ASC'
+    page = parseInt(page) > 0 ? parseInt(page) : 1
+    perPage = parseInt(perPage) > 0 && parseInt(perPage) <= 5 ? parseInt(perPage) : 5
+    order = ['ASC', 'DESC'].includes(order) ? order : 'ASC'
+    sort = ['price', 'duration', 'id'].includes(sort) ? sort : 'id'
     const movies = await movieRepository.find({
         skip: perPage*(page - 1),
         take: perPage,
