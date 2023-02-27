@@ -24,14 +24,13 @@ const read = async (page: any, perPage:any, order:any, sort:any): Promise<tMovie
     if(order !== 'ASC' && order !== 'DESC'){
         order = 'ASC'
     }
-   
+    if(!sort) order = 'ASC'
     if(sort !== 'price' && sort !== 'duration'){ 
         sort = 'id'
     } else {
         sort = sort || 'id'
     }
-    if(!sort) order = 'ASC'
-    
+   
     const movies = await movieRepository.find({
         skip: perPage*(page - 1),
         take: perPage,

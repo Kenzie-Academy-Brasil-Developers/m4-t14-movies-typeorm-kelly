@@ -3,8 +3,8 @@ import { tMovie, tMovieReturn, tMoviesReadAllReturn, tMoviesReturn } from '../in
 import moviesServices from '../services/movies.services'
 
 const read = async (req: Request, res: Response)  => {
-    const {page, perPage, order, sort } = req.query
-
+    const {page, perPage, sort } = req.query
+    const order = (req.query.order)?.toString().toUpperCase()
     const allMovies: tMoviesReadAllReturn = await moviesServices.read(page, perPage, order, sort)
     return res.status(200).json(allMovies)
 }
